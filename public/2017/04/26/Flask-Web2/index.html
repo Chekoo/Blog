@@ -1,0 +1,808 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python,Flask," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="初始化所有的Flask都必须创建一个程序实例，是Flask类的对象Web服务器使用一种名为Web服务器网关接口(Web Server Gateway Interface, WSGI)的协议，把接收自客户端的所有请求都转交给这个对象处理。 from flask import Flaskapp = Flask(name) Flask类的构造函数只有一个必须指定的参数，即程序主模块或包的名字，在大多数程">
+<meta name="keywords" content="Python,Flask">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第二章 程序的基本构造">
+<meta property="og:url" content="https://Chekoo.github.io/2017/04/26/Flask-Web2/index.html">
+<meta property="og:site_name" content="Cheko's Blog">
+<meta property="og:description" content="初始化所有的Flask都必须创建一个程序实例，是Flask类的对象Web服务器使用一种名为Web服务器网关接口(Web Server Gateway Interface, WSGI)的协议，把接收自客户端的所有请求都转交给这个对象处理。 from flask import Flaskapp = Flask(name) Flask类的构造函数只有一个必须指定的参数，即程序主模块或包的名字，在大多数程">
+<meta property="og:updated_time" content="2017-05-14T02:50:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第二章 程序的基本构造">
+<meta name="twitter:description" content="初始化所有的Flask都必须创建一个程序实例，是Flask类的对象Web服务器使用一种名为Web服务器网关接口(Web Server Gateway Interface, WSGI)的协议，把接收自客户端的所有请求都转交给这个对象处理。 from flask import Flaskapp = Flask(name) Flask类的构造函数只有一个必须指定的参数，即程序主模块或包的名字，在大多数程">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://Chekoo.github.io/2017/04/26/Flask-Web2/"/>
+
+
+
+
+
+  <title>第二章 程序的基本构造 | Cheko's Blog</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Cheko's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://Chekoo.github.io/2017/04/26/Flask-Web2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Kang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ava.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cheko's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                第二章 程序的基本构造
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-26T16:56:32+08:00">
+                2017-04-26
+              </time>
+              <span>|
+                <span>post.update</span>
+                <time>
+                 2017-04-26
+                 16:56:32
+                </time>
+              </span>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programming/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>所有的Flask都必须创建一个程序实例，是Flask类的对象<br>Web服务器使用一种名为Web服务器网关接口(Web Server Gateway Interface, WSGI)的协议，<br>把接收自客户端的所有请求都转交给这个对象处理。</p>
+<p>from flask import Flask<br>app = Flask(<strong>name</strong>)</p>
+<p>Flask类的构造函数只有一个必须指定的参数，即程序主模块或包的名字，在大多数程序中，Python的<strong>name</strong>变量就是所需的值<br>将构造函数的name函数传给Flask程序，Flask用这个参数决定程序的根目录，以便稍后能找到相对程序根目录的资源文件位置</p>
+<p>客户端传递请求给服务器，服务器把请求发送给Flask程序实例，实例保存了一个URL到Python函数的映射关系。<br>处理URL和函数之间关系的程序称为路由。</p>
+<pre><code>@app.route(&apos;/&apos;)
+    def index():
+    return &apos;&lt;h1&gt;Hello world&lt;/h1&gt;&apos;
+</code></pre><p>修饰器可以用不同的方式修改函数的行为。惯用方法是用修饰器把函数注册为事件的处理程序<br>函数的返回值称为响应，是客户端接到的内容。</p>
+<p>例如index这样的函数称为视图函数，它返回的响应可以是包含HTML的简单字符串，也可以是复杂的表单。<br><a id="more"></a><br>路由也可以使用动态名字：</p>
+<pre><code>@app.route(&apos;/user/&lt;name&gt;&apos;)
+    def user(name):
+    return &apos;&lt;h1&gt;Hello, %s&lt;/h1&gt;&apos; % name
+</code></pre><p>“&lt;&gt;”内为动态部分，任何能匹配静态部分的URL都会映射到这个路由上。<br>调用视图函数时，Flask会将动态部分作为参数传入函数。<br>动态部分也可使用类型定义，int、float、path，path类型也是字符串，但不把斜线视为分隔符，而将其作为动态片段的一部分<br>/user/<int:id>只会匹配动态片段id为整数的URL</int:id></p>
+<h2 id="请求-响应循环"><a href="#请求-响应循环" class="headerlink" title="请求-响应循环"></a>请求-响应循环</h2><h6 id="程序和请求上下文"><a href="#程序和请求上下文" class="headerlink" title="程序和请求上下文"></a>程序和请求上下文</h6><p>Flask从客户端收到请求时，要让视图函数能访问一些对象，这样才能处理请求。</p>
+<p><strong>请求对象</strong> 是一个很好的例子，封装了客户端发送的HTTP请求。</p>
+<p>Flask用 <strong>上下文</strong> 临时把某些对象变为全局可访问。</p>
+<p><strong>线程</strong> 可单独管理的最小指令集</p>
+<p>Flask中有两种上下文</p>
+<ol>
+<li>程序上下文<br>current_app:    当前激活程序的程序实例<br>g:    处理请求时用作临时存储的对象，每次请求都会重设这个变量。</li>
+<li>请求上下文<br>request:        请求对象，封装了客户端发出的HTTP请求的内容<br>session:        用户会话，用于存储请求之间需要”记住”的值的词典</li>
+</ol>
+<p>Flask在分发请求之前激活(或推送)程序和请求上下文，请求处理完成后再将其删除</p>
+<h6 id="请求调度"><a href="#请求调度" class="headerlink" title="请求调度"></a>请求调度</h6><p>程序收到请求时，要找到处理该请求的视图函数，Flask会在程序的URL映射中查找请求的URL。<br>URL映射是URL和视图函数之间的对应关系，app.route或app.add_url_rule()生成映射。</p>
+<p>URL映射中的HEAD、Options、GET是请求方法。</p>
+<h6 id="请求钩子"><a href="#请求钩子" class="headerlink" title="请求钩子"></a>请求钩子</h6><p>有时在处理请求之前或之后执行代码会很有用。注册通用函数，注册的函数可以在请求被分发到视图函数之前或之后调用。<br>请求钩子使用修饰器实现。<br>before_first_request:  注册一个函数，在处理第一个请求之前运行。<br>before_request:   注册一个函数，在每次请求之前运行。<br>after_request:   注册一个函数，如果没有未处理的异常抛出，在每次请求之后运行<br>teardown_request:   注册一个函数，即使有未处理的异常抛出，也在每次请求之后运行。<br>请求钩子函数和视图函数之间共享数据一般使用上下文全局便来能g。</p>
+<h6 id="响应"><a href="#响应" class="headerlink" title="响应"></a>响应</h6><p>Flask调用视图函数后，会将其返回值作为响应的内容，大多数情况下，响应就是简单的字符串，作为HTML页面回送客户端。<br>HTTP协议还需要一个状态吗，Flask默认为200，这个代码表明请求已经被成功处理<br>redirect()，用于生成重定向响应。<br>abort()生成用于处理错误的响应。abort不会吧控制权还给调用它的函数，而是抛出异常把控制权给Web服务器。</p>
+<h6 id="Flask扩展"><a href="#Flask扩展" class="headerlink" title="Flask扩展"></a>Flask扩展</h6><p>Flask-Scrit为Flask添加了一个命令行解析器。把程序实例作为参数传给构造函数，初始化主类的实例，<br>服务器由manager.run()启动，启动后就能解析命令行。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/Flask/" rel="tag"># Flask</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/26/Flask-Web3/" rel="next" title="第三章 模板">
+                <i class="fa fa-chevron-left"></i> 第三章 模板
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/26/Flask-Web1/" rel="prev" title="第一章 Flask安装">
+                第一章 Flask安装 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/ava.png"
+               alt="Chen Kang" />
+          <p class="site-author-name" itemprop="name">Chen Kang</p>
+           
+              <p class="site-description motion-element" itemprop="description">Hello World</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Chekoo" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/3028549912?refer_flag=1001030101_" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/chekoick/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/140993885/" target="_blank" title="豆瓣">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  豆瓣
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化"><span class="nav-number">1.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#请求-响应循环"><span class="nav-number">2.</span> <span class="nav-text">请求-响应循环</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#程序和请求上下文"><span class="nav-number">2.0.0.0.1.</span> <span class="nav-text">程序和请求上下文</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#请求调度"><span class="nav-number">2.0.0.0.2.</span> <span class="nav-text">请求调度</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#请求钩子"><span class="nav-number">2.0.0.0.3.</span> <span class="nav-text">请求钩子</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#响应"><span class="nav-number">2.0.0.0.4.</span> <span class="nav-text">响应</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Flask扩展"><span class="nav-number">2.0.0.0.5.</span> <span class="nav-text">Flask扩展</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Kang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

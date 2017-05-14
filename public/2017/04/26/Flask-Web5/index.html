@@ -1,0 +1,805 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python,Flask," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="数据库数据库按照一定的规则保存程序数据，程序再发起查询取回所需的数据。Web程序最常用基于关系模型的数据库，这种数据库也称为SQL数据库。因为它们使用结构化查询语言。近几年流行 文档数据库和 键值对数据库成了最流行戴尔替代选择，这两种数据库合称NoSQL数据库。 NoSQL数据库NoSQL数据库一般使用集合代替表，使用文档代替记录。NoSQL数据库采用的设计方式使联结变得困难，所以大多数数据库不支">
+<meta name="keywords" content="Python,Flask">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第五章 数据库">
+<meta property="og:url" content="https://Chekoo.github.io/2017/04/26/Flask-Web5/index.html">
+<meta property="og:site_name" content="Cheko's Blog">
+<meta property="og:description" content="数据库数据库按照一定的规则保存程序数据，程序再发起查询取回所需的数据。Web程序最常用基于关系模型的数据库，这种数据库也称为SQL数据库。因为它们使用结构化查询语言。近几年流行 文档数据库和 键值对数据库成了最流行戴尔替代选择，这两种数据库合称NoSQL数据库。 NoSQL数据库NoSQL数据库一般使用集合代替表，使用文档代替记录。NoSQL数据库采用的设计方式使联结变得困难，所以大多数数据库不支">
+<meta property="og:updated_time" content="2017-05-14T02:52:34.426Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第五章 数据库">
+<meta name="twitter:description" content="数据库数据库按照一定的规则保存程序数据，程序再发起查询取回所需的数据。Web程序最常用基于关系模型的数据库，这种数据库也称为SQL数据库。因为它们使用结构化查询语言。近几年流行 文档数据库和 键值对数据库成了最流行戴尔替代选择，这两种数据库合称NoSQL数据库。 NoSQL数据库NoSQL数据库一般使用集合代替表，使用文档代替记录。NoSQL数据库采用的设计方式使联结变得困难，所以大多数数据库不支">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://Chekoo.github.io/2017/04/26/Flask-Web5/"/>
+
+
+
+
+
+  <title>第五章 数据库 | Cheko's Blog</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Cheko's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://Chekoo.github.io/2017/04/26/Flask-Web5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Kang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ava.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cheko's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                第五章 数据库
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-26T16:56:50+08:00">
+                2017-04-26
+              </time>
+              <span>|
+                <span>post.update</span>
+                <time>
+                 2017-04-26
+                 16:56:50
+                </time>
+              </span>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programming/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><p>数据库按照一定的规则保存程序数据，程序再发起查询取回所需的数据。Web程序最常用基于关系模型的<br>数据库，这种数据库也称为SQL数据库。因为它们使用结构化查询语言。近几年流行 <strong>文档数据库</strong><br>和 <strong>键值对数据库</strong>成了最流行戴尔替代选择，这两种数据库合称NoSQL数据库。</p>
+<h2 id="NoSQL数据库"><a href="#NoSQL数据库" class="headerlink" title="NoSQL数据库"></a>NoSQL数据库</h2><p>NoSQL数据库一般使用集合代替表，使用文档代替记录。<br>NoSQL数据库采用的设计方式使联结变得困难，所以大多数数据库不支持这种操作。<br><br>NoSQL好处: 数据重复可以提升查询速度。</p>
+<a id="more"></a>
+<p>SQL数据库擅于用高校且紧凑的形式存储结构化数据，需要花费大量精力保证数据的一致性<br>NoSQL放宽了对一致性的要求，获得了性能上的优势。</p>
+<h2 id="ORM"><a href="#ORM" class="headerlink" title="ORM"></a>ORM</h2><p>数据库抽象层，也称为对象关系映射(Object-Relational Mapper, ORM)或对象文档映射(Object-Document Mapper, ODM)<br>,在用户不知觉的情况下把高层的面向对象操作转换成底层的数据库指令。</p>
+<h2 id="Flask-SQLAlchemy"><a href="#Flask-SQLAlchemy" class="headerlink" title="Flask-SQLAlchemy"></a>Flask-SQLAlchemy</h2><p>Flask-SQLAlchemy是一个Flask扩展，简化了Flask程序中使用SQLAlchemy的操作。</p>
+<h3 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h3><p>模型表示程序使用的持久化实体，在ORM中，模型一般是一个Python类，类中的属性对应数据库表中的列<br><strong>repr()</strong> 方法，返回一个具有可读性的字符串表示模型，可在调试和测试时使用。</p>
+<pre><code>class Role(db.Model):
+    # ...
+    users = db.relationship(&apos;User&apos;, backref=&apos;role&apos;)
+
+
+class User(db.Model):
+    # ...
+    role_id = db.Column(db.Integer, db.ForeignKey(&apos;roles.id&apos;))
+</code></pre><p>添加到User模型中的role_id列被定义为外键。<br>传给db.ForeignKey()的参数’role.id’表明这列是roles表中行的id值。<br></p>
+<p>添加到Role模型中的user属性代表这个关系的面向对象视角。对于一个Role类的实例，其users属性将返回与角色相关联的用户组成的列表。</p>
+<h3 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h3><p>创建数据库，使用db.create_all()，更新现有数据库表的粗暴方式是先删除再重新出创建。<br>db.drop_all()<br>db.create_all()</p>
+<p>构造对象，准备把对象写入数据库之前，先要将其添加到会话中，然后调用commit()提交会话，<br><strong>数据库会话也称为事务</strong><br><br>数据库会话能保证数据库的一致性。提交操作把会话中的对象全部写入数据库。<br><br>会话也可以回滚。db.session.rollback()</p>
+<p>删除与插入和更新一样，提交数据库会话后才会执行。<br><br>Flask-SQLAlchemy为每个模型类都提供了query对象。</p>
+<p>使用过滤器可以配置query对象进行更精准的数据库查询。<br><br>filter_by()等过滤器在query对象上调用。返回一个更精确的query对象。<br><br>all()以列表形式返回查询的所有结果。</p>
+<h3 id="集成Python-shell"><a href="#集成Python-shell" class="headerlink" title="集成Python shell"></a>集成Python shell</h3><p>想把对象添加到导入列表中，我们要为shell命令注册一个make_context回调函数。<br>make_shell_context()函数注册了程序、数据库实例以及模型，因此这些对象能直接导入shell。</p>
+<h3 id="使用Flask-Migrate实现数据库迁移"><a href="#使用Flask-Migrate实现数据库迁移" class="headerlink" title="使用Flask-Migrate实现数据库迁移"></a>使用Flask-Migrate实现数据库迁移</h3><p>更新表的更好方法是使用数据库迁移框架，源码版本控制工具可以跟踪源码文件的变化。<br>SQLAlchemy主力开发人员编写了一个迁移框架，称为Alembic，Flask程序还可使用Flask-Migrate扩展。<br>这个扩展对Alembic做了轻量级包装，并集成到Flask-Script中，所有操作都通过Flask-Script命令完成。</p>
+<p>数据库迁移仓库中的文件要和程序的其他文件一起纳入版本控制。</p>
+<p>Alembic中，数据库迁移用迁移脚本表示，脚本中有两个函数，分别是upgrade()和downgrade()。<br>upgrade()把迁移中的改动应用到数据库中，downgrade()则将改动删除</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/Flask/" rel="tag"># Flask</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/26/Flask-Web6/" rel="next" title="第六章 电子邮件">
+                <i class="fa fa-chevron-left"></i> 第六章 电子邮件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/26/Flask-Web4/" rel="prev" title="第四章 Web表单">
+                第四章 Web表单 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/ava.png"
+               alt="Chen Kang" />
+          <p class="site-author-name" itemprop="name">Chen Kang</p>
+           
+              <p class="site-description motion-element" itemprop="description">Hello World</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Chekoo" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/3028549912?refer_flag=1001030101_" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/chekoick/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/140993885/" target="_blank" title="豆瓣">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  豆瓣
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库"><span class="nav-number">1.</span> <span class="nav-text">数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#NoSQL数据库"><span class="nav-number">1.1.</span> <span class="nav-text">NoSQL数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ORM"><span class="nav-number">1.2.</span> <span class="nav-text">ORM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flask-SQLAlchemy"><span class="nav-number">1.3.</span> <span class="nav-text">Flask-SQLAlchemy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模型"><span class="nav-number">1.3.1.</span> <span class="nav-text">模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库操作"><span class="nav-number">1.3.2.</span> <span class="nav-text">数据库操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集成Python-shell"><span class="nav-number">1.3.3.</span> <span class="nav-text">集成Python shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Flask-Migrate实现数据库迁移"><span class="nav-number">1.3.4.</span> <span class="nav-text">使用Flask-Migrate实现数据库迁移</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Kang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
